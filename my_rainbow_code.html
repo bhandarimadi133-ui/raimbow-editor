@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Rainbow Code</title>
+<style>body { font-family: Arial; background: #f0f4f8; color: #333; }
+h2 { color: #ff00ff; }
+        </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rainbow Live Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-gradient: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+    --card-bg: rgba(255,255,255,0.95);
+    --primary: #ff00ff;
+    --secondary: #00ffff;
+    --text: #333;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+}
+
+header {
+    text-align: center;
+    padding: 25px 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.editor, .output {
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    padding: 20px;
+    flex: 1 1 360px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor h2, .output h2 { margin-top: 0; color: var(--primary); }
+
+textarea {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 12px;
+    resize: vertical;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+}
+
+button {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+    margin: 5px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+iframe {
+    width: 100%;
+    height: 360px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background: white;
+}
+
+.top-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+
+.resizable { resize: vertical; overflow: auto; }
+
+@media (max-width: 600px) {
+    header h1 { font-size: 22px; }
+    textarea { height: 140px; }
+    iframe { height: 250px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Rainbow Live Code Editor</h1>
+</header>
+
+<div class="container">
+    <div class="editor resizable">
+        <div class="top-buttons">
+            <button onclick="runCode()">Run Code</button>
+            <button onclick="downloadCode()">Download HTML</button>
+        </div>
+
+        <h2>HTML</h2>
+        <textarea id="htmlCode">
+<h2>Hello Rainbow!</h2>
+<p>Edit your HTML here.</p>
+        </textarea>
+
+        <h2>CSS</h2>
+        <textarea id="cssCode">
+body { font-family: Arial; background: #f0f4f8; color: #333; }
+h2 { color: #ff00ff; }
+        </textarea>
+
+        <h2>JavaScript</h2>
+        <textarea id="jsCode">
+console.log("JS works!");
+        </textarea>
+    </div>
+
+    <div class="output resizable">
+        <h2>Live Preview</h2>
+        <iframe id="outputFrame"></iframe>
+    </div>
+</div>
+
+<script>
+function runCode() {
+    const html = document.getElementById('htmlCode').value;
+    const css = "<style>" + document.getElementById('cssCode').value + "</style>";
+    const js = "<script>" + document.getElementById('jsCode').value + "<\/script>";
+    const iframe = document.getElementById('outputFrame');
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(html + css + js);
+    iframe.contentDocument.close();
+}
+
+// Auto-run on typing
+['htmlCode','cssCode','jsCode'].forEach(id => {
+    document.getElementById(id).addEventListener('input', runCode);
+});
+
+// Download HTML file
+function downloadCode() {
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Rainbow Code</title>
+<style>${document.getElementById('cssCode').value}</style>
+</head>
+<body>
+${document.getElementById('htmlCode').value}
+<script>${document.getElementById('jsCode').value}<\/script>
+</body>
+</html>`;
+    const blob = new Blob([htmlContent], {type: "text/html"});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "my_rainbow_code.html";
+    a.click();
+}
+
+// Initial run
+runCode();
+</script>
+
+</body>
+</html>
+
+<script>console.log("JS works!");
+        </script>
+</body>
+</html>
